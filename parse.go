@@ -18,6 +18,10 @@ func (l *lexer) next() {
 	l.token = l.scan.Scan()
 }
 
+func (l *lexer) peek() rune {
+	return l.scan.Peek()
+}
+
 func (l *lexer) text() string {
 	return l.scan.TokenText()
 }
@@ -86,8 +90,7 @@ func parseValue(lex *lexer) Value {
 		dtype := Default
 
 		v := lex.text()
-		if t := lex.scan.Peek(); t == ':' {
-			lex.scan.Next()
+		if t := lex.peek(); t == ':' {
 			lex.next()
 			if v, ok := dtypes[lex.text()]; ok {
 				dtype = v
